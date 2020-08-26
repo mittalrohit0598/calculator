@@ -1,0 +1,51 @@
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 4rem;
+    font-family: arial,sans-serif;
+}
+
+#container {
+    width: 350px;
+    margin: 100px auto;
+    border: 1px solid #dfe1e5;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#display {
+    text-align: right;
+    padding: 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 8px;
+}
+
+#keys {
+    display: grid;
+    grid-template-rows: repeat(4, 40px);
+    grid-template-columns: repeat(4, 80px);
+    gap: 10px;
+    padding-top: 20px;
+}
+
+button {
+    font-size: 2rem;
+    color: #202124;
+    background-color: #f1f3f4;
+    border: 1px solid #f1f3f4;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.operators {
+    background-color: #dfe1e5;
+    border: 1px solid #dfe1e5;
+}
+
+#equals {
+    background-color: #4285f4;
+    color: #fff;
+    border: 1px solid #4285f4;
+}
