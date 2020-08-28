@@ -81,8 +81,8 @@ window.addEventListener('keydown', (e) => {
 });
 
 function calculator(key) {
-    if(display.textContent == String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C)){
-       display.textContent = ""; 
+    if(display.textContent.search(String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C)) > -1){
+       display.textContent = display.textContent.replace(String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C), 69); 
     }
     if(key == 'C' || key == 'c'){
         display.textContent = "";
@@ -106,7 +106,7 @@ function calculator(key) {
                 operator = key;
                 secondOperand = NaN;
                 if(result == 69){
-                    display.textContent = String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C);
+                    display.textContent = String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C) + ` ${operator} `;
                 } else {
                     display.textContent = result + ` ${operator} `;
                 }
