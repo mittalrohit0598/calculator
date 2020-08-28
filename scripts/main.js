@@ -81,6 +81,9 @@ window.addEventListener('keydown', (e) => {
 });
 
 function calculator(key) {
+    if(display.textContent == String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C)){
+       display.textContent = ""; 
+    }
     if(key == 'C' || key == 'c'){
         display.textContent = "";
         decimal.disabled = false;
@@ -102,7 +105,11 @@ function calculator(key) {
                 firstOperand = result;
                 operator = key;
                 secondOperand = NaN;
-                display.textContent = result + ` ${operator} `;
+                if(result == 69){
+                    display.textContent = String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C);
+                } else {
+                    display.textContent = result + ` ${operator} `;
+                }
                 decimal.disabled = false;
             }
         } else if(!Object.is(firstOperand, NaN)){
@@ -113,7 +120,11 @@ function calculator(key) {
         if(!Object.is(firstOperand, NaN) && operator != "" && !Object.is(+display.textContent.slice(display.textContent.indexOf(operator) + 1, display.textContent.length), NaN)){
             secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
             const result = operate(firstOperand, secondOperand, operator);
-            display.textContent = result
+            if(result == 69){
+                display.textContent = String.fromCodePoint(0x1F351) + String.fromCodePoint(0x1F34C);
+            } else {
+                display.textContent = result;
+            }
             firstOperand = result;
             operator = "";
             secondOperand = NaN;
