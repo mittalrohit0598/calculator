@@ -29,6 +29,15 @@ function operate(a, b, operator) {
     return res == Math.floor(res) ? res : (res).toFixed(2);;
 }
 
+function checkOverflow(element) {
+    element.style.overflow = 'auto';
+
+    const isOverflowing = element.clientWidth < element.scrollWidth || element.clientHeight < element.scrollHeight;
+    element.style.overflow = 'normal';
+
+    return isOverflowing;
+}
+
 const display = document.querySelector('#display');
 const keys = Array.from(document.querySelectorAll('button'));
 const decimal = document.querySelector('#decimal');
@@ -41,6 +50,11 @@ display.textContent = "";
 keys.forEach((key) => {
     key.addEventListener('click', () => {
         calculator(key.textContent);
+        if(checkOverflow(display)){
+            display.setAttribute('style', 'font-size: 2rem; word-wrap: break-word;')
+        } else {
+            display.setAttribute('style', 'font-size: 4rem;')
+        }
     });
 });
 
@@ -58,6 +72,11 @@ window.addEventListener('keydown', (e) => {
                 key.focus();
             }
         })
+        if(checkOverflow(display)){
+            display.classList.add('overflow');
+        } else if(+display.textContent < 10e14){
+            display.classList.remove('overflow');
+        }
     }
 });
 

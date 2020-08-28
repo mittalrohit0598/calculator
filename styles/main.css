@@ -25,6 +25,11 @@ body {
     color: #fff5de;
 }
 
+.overflow {
+    font-size: 2rem;
+    word-wrap: break-word;
+}
+
 #keys {
     display: grid;
     grid-template-rows: repeat(5, 40px);
