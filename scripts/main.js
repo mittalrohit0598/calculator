@@ -53,6 +53,11 @@ window.addEventListener('keydown', (e) => {
         } else {
             calculator(e.key);
         }
+        keys.forEach((key) => {
+            if(e.key == key.textContent || e.key == key.id){
+                key.focus();
+            }
+        })
     }
 });
 
@@ -71,20 +76,22 @@ function calculator(key) {
                 display.textContent += ` ${key} `;
                 decimal.disabled = false;
             }
-        } else if(!Object.is(firstOperand, NaN) && operator != "" && !display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length) == 0){
-            secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
-            const result = operate(firstOperand, secondOperand, operator);
-            firstOperand = result;
-            operator = key;
-            secondOperand = NaN;
-            display.textContent = result + ` ${operator} `;
-            decimal.disabled = false;
+        } else if(!Object.is(firstOperand, NaN) && operator != ""){
+            if(!Object.is(+display.textContent.slice(display.textContent.indexOf(operator) + 1, display.textContent.length), NaN)){
+                secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
+                const result = operate(firstOperand, secondOperand, operator);
+                firstOperand = result;
+                operator = key;
+                secondOperand = NaN;
+                display.textContent = result + ` ${operator} `;
+                decimal.disabled = false;
+            }
         } else if(!Object.is(firstOperand, NaN)){
             operator = key;
             display.textContent = `${firstOperand} ${operator} `;
         }
     } else if(key == '=' || key == 'Enter'){
-        if(!Object.is(firstOperand, NaN) && operator != "" && !display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length) == 0){
+        if(!Object.is(firstOperand, NaN) && operator != "" && !Object.is(+display.textContent.slice(display.textContent.indexOf(operator) + 1, display.textContent.length), NaN)){
             secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
             const result = operate(firstOperand, secondOperand, operator);
             display.textContent = result
