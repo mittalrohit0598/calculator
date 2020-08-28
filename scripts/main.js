@@ -40,51 +40,77 @@ display.textContent = "";
 
 keys.forEach((key) => {
     key.addEventListener('click', () => {
-        if(key.textContent == 'C'){
-            display.textContent = "";
-            decimal.disabled = false;
-            firstOperand = NaN;
-            secondOperand = NaN;
-            operator = "";
-        } else if(key.classList.contains('operators')){
-            if(Object.is(secondOperand, NaN) && operator == ""){
-                if(display.textContent !== ""){
-                    firstOperand = +display.textContent;
-                    operator = key.textContent;
-                    display.textContent += ` ${key.textContent} `;
-                    decimal.disabled = false;
-                }
-            } else if(!Object.is(firstOperand, NaN) && operator != "" && !display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length) == 0){
-                secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
-                const result = operate(firstOperand, secondOperand, operator);
-                firstOperand = result;
-                operator = key.textContent;
-                secondOperand = NaN;
-                display.textContent = result + ` ${operator} `;
-                decimal.disabled = false;
-            } else if(!Object.is(firstOperand, NaN)){
-                operator = key.textContent;
-                display.textContent = `${firstOperand} ${operator} `;
-            }
-        } else if(key.textContent == '='){
-            if(!Object.is(firstOperand, NaN) && operator != "" && !display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length) == 0){
-                secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
-                const result = operate(firstOperand, secondOperand, operator);
-                display.textContent = result
-                firstOperand = result;
-                operator = "";
-                secondOperand = NaN;
-                if(firstOperand != Math.floor(firstOperand)){
-                    decimal.disabled = true;
-                } else {
-                    decimal.disabled = false;
-                }
-            }
-        } else {
-            display.textContent += key.textContent;
-            if(key.textContent == '.'){
-                decimal.disabled = true;
-            }
-        }
+        calculator(key.textContent);
     });
 });
+
+window.addEventListener('keydown', (e) => {
+    if(e.key.search(/(\*|\u002F|-|\+|[0-9]|\.|=|Enter|Backspace)/) > -1 || e.keyCode == 67){
+        if(e.key == '.'){
+            if(decimal.disabled == false){
+                calculator(e.key);
+            }
+        } else {
+            calculator(e.key);
+        }
+    }
+});
+
+function calculator(key) {
+    if(key == 'C' || key == 'c'){
+        display.textContent = "";
+        decimal.disabled = false;
+        firstOperand = NaN;
+        secondOperand = NaN;
+        operator = "";
+    } else if(key.search(/(\*|\u002F|-|\+)/) > -1){
+        if(Object.is(secondOperand, NaN) && operator == ""){
+            if(display.textContent !== ""){
+                firstOperand = +display.textContent;
+                operator = key;
+                display.textContent += ` ${key} `;
+                decimal.disabled = false;
+            }
+        } else if(!Object.is(firstOperand, NaN) && operator != "" && !display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length) == 0){
+            secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
+            const result = operate(firstOperand, secondOperand, operator);
+            firstOperand = result;
+            operator = key;
+            secondOperand = NaN;
+            display.textContent = result + ` ${operator} `;
+            decimal.disabled = false;
+        } else if(!Object.is(firstOperand, NaN)){
+            operator = key;
+            display.textContent = `${firstOperand} ${operator} `;
+        }
+    } else if(key == '=' || key == 'Enter'){
+        if(!Object.is(firstOperand, NaN) && operator != "" && !display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length) == 0){
+            secondOperand = +display.textContent.slice(display.textContent.indexOf(operator) + 2, display.textContent.length);
+            const result = operate(firstOperand, secondOperand, operator);
+            display.textContent = result
+            firstOperand = result;
+            operator = "";
+            secondOperand = NaN;
+            if(firstOperand != Math.floor(firstOperand)){
+                decimal.disabled = true;
+            } else {
+                decimal.disabled = false;
+            }
+        }
+    } else if(key == 'CE' || key == 'Backspace'){
+        if(display.textContent.slice(-2, -1).search(/(\*|\u002F|-|\+)/) > -1){
+            display.textContent = display.textContent.slice(0, display.textContent.length - 3);
+            operator = "";
+        } else if(display.textContent.slice(-1, display.textContent.length) == '.'){
+            display.textContent = display.textContent.slice(0, display.textContent.length - 1);
+            decimal.disabled = false;
+        } else {
+            display.textContent = display.textContent.slice(0, display.textContent.length - 1);
+        }
+    } else {
+        display.textContent += key;
+        if(key == '.'){
+            decimal.disabled = true;
+        }
+    }
+}

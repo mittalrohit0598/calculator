@@ -52,5 +52,9 @@ button {
 }
 
 #clear {
-    grid-area: 1/1/2/5;
+    grid-area: 1/1/2/3;
+}
+
+#backspace {
+    grid-area: 1/3/2/5;
 }
